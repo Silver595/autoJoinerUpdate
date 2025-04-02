@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Meeting Assistant</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 5px;
+      color: #343a40;
+      overflow: hidden;
+    }
+    .container {
+      background-color: #ffffff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 450px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+    h2 {
+      text-align: center;
+      font-size: 1.8em;
+      margin-bottom: 28px;
+      color: #212529;
+      font-weight: 700;
+    }
+    .input-group {
+      position: relative;
+      margin-bottom: 24px;
+    }
+    input,
+    button {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 1.05em;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+    input {
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      color: #495057;
+    }
+    input:focus {
+      border-color: #4361ee;
+      box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
+    }
+    input::placeholder {
+      color: #adb5bd;
+    }
+    button {
+      background-color: #4361ee;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      margin-top: 8px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    button:hover {
+      background-color: #3a56d4;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(67, 97, 238, 0.2);
+    }
+    button:active {
+      transform: translateY(0);
+    }
+    #status {
+      text-align: center;
+      color: #6c757d;
+      font-weight: 500;
+      margin-top: 16px;
+      height: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 24px;
+      }
+      h2 {
+        font-size: 1.6em;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Auto Meeting Assistant</h2>
+    <div class="input-group">
+      <input type="text" id="meetingLink" placeholder="Enter Meeting Link">
+    </div>
+    <div class="input-group">
+      <input type="datetime-local" id="startTime">
+    </div>
+    <div class="input-group">
+      <input type="number" id="autoCloseDuration" placeholder="Duration (minutes)">
+    </div>
+    <button id="scheduleMeeting">Schedule Meeting</button>
+    <div id="status"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
