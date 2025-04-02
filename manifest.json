@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Auto Meeting Assistant",
     "version": "1.0.0",
-    "description": "Automate Google Meet participation with scheduling and auto-close features",
+    "description": "Automate Google Meet participation with scheduling and auto-close features, with sleep recovery",
     "permissions": [
       "activeTab",
       "storage",

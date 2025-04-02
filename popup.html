@@ -1,118 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Auto Meeting Assistant</title>
   <style>
-    /* General Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #f8f9fa;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      padding: 5px;
-      color: #343a40;
-      overflow: hidden;
+      font-family: Arial, sans-serif;
+      width: 350px;
+      padding: 15px;
     }
-    .container {
-      background-color: #ffffff;
-      border-radius: 16px;
-      width: 100%;
-      max-width: 450px;
-      padding: 32px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    h1 {
+      font-size: 18px;
+      margin-bottom: 15px;
     }
-    h2 {
-      text-align: center;
-      font-size: 1.8em;
-      margin-bottom: 28px;
-      color: #212529;
-      font-weight: 700;
+    .form-group {
+      margin-bottom: 12px;
     }
-    .input-group {
-      position: relative;
-      margin-bottom: 24px;
-    }
-    input,
-    button {
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 10px;
-      font-size: 1.05em;
-      outline: none;
-      transition: all 0.25s ease;
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
     }
     input {
-      background-color: #f8f9fa;
-      border: 1px solid #dee2e6;
-      color: #495057;
-    }
-    input:focus {
-      border-color: #4361ee;
-      box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
-    }
-    input::placeholder {
-      color: #adb5bd;
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
     }
     button {
-      background-color: #4361ee;
+      background-color: #4285f4;
       color: white;
-      font-weight: 600;
-      cursor: pointer;
       border: none;
-      margin-top: 8px;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: bold;
     }
     button:hover {
-      background-color: #3a56d4;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(67, 97, 238, 0.2);
-    }
-    button:active {
-      transform: translateY(0);
+      background-color: #3367d6;
     }
     #status {
-      text-align: center;
-      color: #6c757d;
-      font-weight: 500;
-      margin-top: 16px;
-      height: 20px;
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 4px;
     }
-
-    @media (max-width: 480px) {
-      .container {
-        padding: 24px;
-      }
-      h2 {
-        font-size: 1.6em;
-        margin-bottom: 20px;
-      }
+    #status.success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    #status.error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    #upcomingMeetings {
+      margin-top: 20px;
+    }
+    #upcomingMeetings ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    #upcomingMeetings li {
+      border-bottom: 1px solid #eee;
+      padding: 8px 0;
+    }
+    .meeting-info {
+      font-size: 12px;
+      line-height: 1.4;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Auto Meeting Assistant</h2>
-    <div class="input-group">
-      <input type="text" id="meetingLink" placeholder="Enter Meeting Link">
-    </div>
-    <div class="input-group">
-      <input type="datetime-local" id="startTime">
-    </div>
-    <div class="input-group">
-      <input type="number" id="autoCloseDuration" placeholder="Duration (minutes)">
-    </div>
-    <button id="scheduleMeeting">Schedule Meeting</button>
-    <div id="status"></div>
+  <h1>Auto Meeting Assistant</h1>
+
+  <div class="form-group">
+    <label for="meetingLink">Google Meet Link:</label>
+    <input type="text" id="meetingLink" placeholder="https://meet.google.com/xxx-xxxx-xxx">
   </div>
+
+  <div class="form-group">
+    <label for="startTime">Start Time:</label>
+    <input type="datetime-local" id="startTime">
+  </div>
+
+  <div class="form-group">
+    <label for="autoCloseDuration">Auto-Close After (minutes):</label>
+    <input type="number" id="autoCloseDuration" min="1" placeholder="60">
+  </div>
+
+  <button id="scheduleMeeting">Schedule Meeting</button>
+
+  <div id="status"></div>
+
+  <div id="upcomingMeetings"></div>
+
   <script src="popup.js"></script>
 </body>
 </html>
