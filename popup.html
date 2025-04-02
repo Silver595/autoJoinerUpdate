@@ -5,12 +5,20 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      width: 350px;
+      width: 380px;
       padding: 15px;
+      margin: 0;
+      color: #333;
     }
     h1 {
-      font-size: 18px;
+      font-size: 20px;
       margin-bottom: 15px;
+      color: #1a73e8;
+    }
+    h2 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #333;
     }
     .form-group {
       margin-bottom: 12px;
@@ -19,28 +27,37 @@
       display: block;
       margin-bottom: 5px;
       font-weight: bold;
+      font-size: 14px;
     }
     input {
       width: 100%;
       padding: 8px;
       box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
     button {
-      background-color: #4285f4;
+      background-color: #1a73e8;
       color: white;
       border: none;
       padding: 10px 15px;
       cursor: pointer;
       border-radius: 4px;
       font-weight: bold;
+      transition: background-color 0.2s;
     }
     button:hover {
-      background-color: #3367d6;
+      background-color: #0d62d1;
+    }
+    button:disabled {
+      background-color: #a9c7f5;
+      cursor: not-allowed;
     }
     #status {
       margin-top: 10px;
       padding: 8px;
       border-radius: 4px;
+      transition: opacity 0.5s;
     }
     #status.success {
       background-color: #d4edda;
@@ -50,28 +67,228 @@
       background-color: #f8d7da;
       color: #721c24;
     }
+
+    #status.warning {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+    #status.info {
+      background-color: #d1ecf1;
+      color: #0c5460;
+    }
     #upcomingMeetings {
       margin-top: 20px;
     }
-    #upcomingMeetings ul {
-      list-style-type: none;
-      padding: 0;
+    .meetings-list {
+      margin-top: 10px;
     }
-    #upcomingMeetings li {
-      border-bottom: 1px solid #eee;
-      padding: 8px 0;
+    .meeting-card {
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: space-between;
     }
-    .meeting-info {
-      font-size: 12px;
+    .meeting-card.meeting-joined {
+      border-left: 4px solid #4caf50;
+    }
+    .meeting-card.meeting-completed {
+      border-left: 4px solid #9e9e9e;
+      opacity: 0.8;
+    }
+    .meeting-card.meeting-active {
+      border-left: 4px solid #ff9800;
+    }
+    .meeting-details {
+      flex: 1;
+    }
+    .meeting-details h3 {
+      margin: 0 0 5px 0;
+      font-size: 15px;
+    }
+    .meeting-time, .meeting-countdown, .meeting-link, .meeting-duration, .meeting-platform, .meeting-status {
+      margin: 5px 0;
+      font-size: 13px;
       line-height: 1.4;
+    }
+    .meeting-countdown {
+      font-weight: bold;
+      color: #1a73e8;
+    }
+    .meeting-status {
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+    .meeting-status.joined {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .meeting-status.completed {
+      background-color: #e9ecef;
+      color: #495057;
+    }
+    .meeting-status.active {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+    .meeting-actions {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+    }
+    .meeting-actions button {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+    .edit-meeting {
+      background-color: #4caf50;
+    }
+    .edit-meeting:hover {
+      background-color: #3d8b40;
+    }
+    .edit-meeting:disabled {
+      background-color: #a5d6a7;
+    }
+    .cancel-meeting {
+      background-color: #f44336;
+    }
+    .cancel-meeting:hover {
+      background-color: #d32f2f;
+    }
+    .connection-status {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 10px;
+    }
+    .connected {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .disconnected {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    .limited {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+    .checking {
+      background-color: #e9ecef;
+      color: #495057;
+    }
+    .unknown {
+      background-color: #e9ecef;
+      color: #495057;
+    }
+    .no-meetings {
+      font-style: italic;
+      color: #666;
+      text-align: center;
+      padding: 10px;
+    }
+    .error {
+      color: #721c24;
+      background-color: #f8d7da;
+      padding: 8px;
+      border-radius: 4px;
+      margin: 10px 0;
+    }
+    .error-logs-container {
+      margin-top: 20px;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 15px;
+    }
+    .error-logs-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .error-logs-header h2 {
+      margin: 0;
+      flex: 1;
+    }
+    .toggle-logs-button, .clear-logs-button {
+      font-size: 12px;
+      padding: 5px 10px;
+      margin-left: 5px;
+    }
+    .clear-logs-button {
+      background-color: #f44336;
+    }
+    .clear-logs-button:hover {
+      background-color: #d32f2f;
+    }
+    .error-logs-content {
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+    .logs-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .log-entry {
+      padding: 8px;
+      border-bottom: 1px solid #e0e0e0;
+      font-size: 12px;
+    }
+    .log-entry:last-child {
+      border-bottom: none;
+    }
+    .log-entry.error {
+      background-color: rgba(244, 67, 54, 0.1);
+    }
+    .log-entry.warning {
+      background-color: rgba(255, 152, 0, 0.1);
+    }
+    .log-entry.info {
+      background-color: rgba(33, 150, 243, 0.1);
+    }
+    .log-time {
+      color: #666;
+      margin-right: 5px;
+    }
+    .log-severity {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+    .log-severity.error {
+      color: #f44336;
+    }
+    .log-severity.warning {
+      color: #ff9800;
+    }
+    .log-severity.info {
+      color: #2196f3;
+    }
+    .log-message {
+      word-break: break-word;
+    }
+    .no-logs {
+      padding: 10px;
+      text-align: center;
+      font-style: italic;
+      color: #666;
     }
   </style>
 </head>
 <body>
   <h1>Auto Meeting Assistant</h1>
+  <div id="connectionStatus" class="connection-status">Checking connection...</div>
 
   <div class="form-group">
-    <label for="meetingLink">Google Meet Link:</label>
+    <label for="meetingLink">Meeting Link:</label>
     <input type="text" id="meetingLink" placeholder="https://meet.google.com/xxx-xxxx-xxx">
   </div>
 
@@ -89,8 +306,25 @@
 
   <div id="status"></div>
 
-  <div id="upcomingMeetings"></div>
+  <div id="upcomingMeetings">
+    <h2>Upcoming Meetings</h2>
+    <div class="meetings-list">
+      <!-- Meetings will be loaded here -->
+    </div>
+  </div>
+
+  <div id="errorLogs" class="error-logs-container">
+    <div class="error-logs-header">
+      <h2>Error Logs</h2>
+      <button id="toggleErrorLogs" class="toggle-logs-button">Show Logs</button>
+      <button id="clearErrorLogs" class="clear-logs-button">Clear Logs</button>
+    </div>
+    <div id="errorLogsContent" class="error-logs-content" style="display: none;">
+      <!-- Logs will be loaded here -->
+    </div>
+  </div>
 
   <script src="popup.js"></script>
 </body>
 </html>
+

@@ -2,14 +2,10 @@
     "manifest_version": 3,
     "name": "Auto Meeting Assistant",
     "version": "1.0.0",
-    "description": "Automate Google Meet participation with scheduling and auto-close features, with sleep recovery",
-    "permissions": [
-      "activeTab",
-      "storage",
-      "notifications",
-      "alarms",
-      "tabs"
-    ],
+    "description": "Automatically join online meetings even when your device is in sleep mode",
+    "permissions": ["activeTab", "storage", "notifications", "alarms", "tabs", "idle"],
+    "optional_permissions": ["system.display"],
+    "host_permissions": ["*://meet.google.com/*", "*://*.zoom.us/*", "*://*.teams.microsoft.com/*", "*://*.webex.com/*"],
     "action": {
       "default_popup": "popup.html",
       "default_icon": {
@@ -19,12 +15,22 @@
       }
     },
     "background": {
-      "service_worker": "background.js"
+      "service_worker": "background.js",
+      "type": "module"
     },
     "content_scripts": [
       {
-        "matches": ["*://meet.google.com/*"],
-        "js": ["content.js"]
+        "matches": [
+          "*://meet.google.com/*",
+          "*://*.zoom.us/j/*",
+          "*://*.zoom.us/s/*",
+          "*://*.zoom.us/meeting/*",
+          "*://*.teams.microsoft.com/*",
+          "*://*.webex.com/meet/*",
+          "*://*.webex.com/j/*"
+        ],
+        "js": ["content.js"],
+        "run_at": "document_end"
       }
     ],
     "icons": {
@@ -33,3 +39,4 @@
       "128": "images/icon128.png"
     }
   }
+
